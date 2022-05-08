@@ -29,6 +29,23 @@ async function run() {
       const items = await cursor.toArray();
       res.send(items);
     });
+
+    //post data
+    app.post("/item", async (req, res) => {
+      const itemCollection = client.db("mrAppler").collection("item");
+      const newItem = req.body;
+      const result = await itemCollection.insertOne(newItem);
+      res.send(result);
+    });
+
+    //delete
+    app.delete("/item/:id", async (req, res) => {
+      const itemCollection = client.db("mrAppler").collection("item");
+      const id = req.params.id;
+      const query = { _id: ObjectId(id) };
+      const result = await itemCollection.deleteOne(query);
+      res.send(result);
+    });
   } finally {
   }
 }
@@ -38,31 +55,14 @@ app.get("/", (req, res) => {
   res.send("Running Mr. Appler Server");
 });
 
-//post data
-app.post("/item", async (req, res) => {
-  const itemCollection = client.db("mrAppler").collection("item");
-  const newItem = req.body;
-  const result = await itemCollection.insertOne(newItem);
-  res.send(result);
-});
-
-//AUTH
+/* //AUTH
 app.post("/login", async (req, res) => {
   const user = req.body;
   const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
     expiresIn: "1d",
   });
   res.send({ accessToken });
-});
-
-//delete
-app.delete("/item/:id", async (req, res) => {
-  const itemCollection = client.db("mrAppler").collection("item");
-  const id = req.params.id;
-  const query = { _id: ObjectId(id) };
-  const result = await itemCollection.deleteOne(query);
-  res.send(result);
-});
+}); */
 
 app.listen(port, () => {
   console.log("Listening to port", port);

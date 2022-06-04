@@ -55,15 +55,6 @@ app.get("/", (req, res) => {
   res.send("Running Mr. Appler Server");
 });
 
-/* //AUTH
-app.post("/login", async (req, res) => {
-  const user = req.body;
-  const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
-    expiresIn: "1d",
-  });
-  res.send({ accessToken });
-}); */
-
 app.listen(port, () => {
   console.log("Listening to port", port);
 });
